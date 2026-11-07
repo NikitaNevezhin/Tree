@@ -182,9 +182,8 @@ int TreeGenerateHtmlFile(TreeNode* root, const char* html_filename,
             "        .graph-container { overflow-x: auto; padding: 15px; border: 1px solid #f1f5f9; background: #fafafa; border-radius: 6px; }\n"
             "        svg { max-width: 100%%; height: auto; display: block; margin: 0 auto; }\n"
             "    </style>\n</head>\n<body>\n"
-            "    <h2>TREE root DUMP HISTORY</h2>\n"
+            "    <h2>TREE DUMP HISTORY</h2>\n"
         );
-
 
         is_first_dump = false;
     }

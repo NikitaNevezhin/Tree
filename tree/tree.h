@@ -13,6 +13,8 @@
 
 #define TERM_CMD_MAX_SIZE 256  // idk, let it be 256
 
+#define TREE_GRAPH_DUMP(root, html_filename) TreeGraphDump(root, html_filename, __FILE__, __LINE__, __func__);
+
 typedef int node_t;
 
 struct TreeNode
@@ -35,15 +37,21 @@ struct Tree
 //   GENERAL TOOLS
 // -----------------
 
-int     NodeInit        (TreeNode* node, TreeNode* parent, node_t data);
-
-int     NodeDestroy     (TreeNode* node);
-
-int     LinkLeft        (TreeNode* parent, TreeNode* child);
-
-int     LinkRight       (TreeNode* parent, TreeNode* child);
-
-void    PrintTree       (TreeNode* root);
+int          NodeInit            (TreeNode* node, TreeNode* parent, node_t data);
+ 
+int          NodeDestroy         (TreeNode* node);
+ 
+int          LinkLeft            (TreeNode* parent, TreeNode* child);
+ 
+int          LinkRight           (TreeNode* parent, TreeNode* child);
+ 
+void         PrintTree           (TreeNode* root);
+ 
+int          TreeInit            (Tree* tree);
+ 
+TreeNode*    InsertRecursive     (TreeNode* curr_node, TreeNode* parent, node_t data, int* total_nodes);
+ 
+int          TreeInsert          (Tree* tree, node_t data);
 
 
 // ------------------
