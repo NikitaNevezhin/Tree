@@ -36,9 +36,23 @@ int GenerateTreeDump(FILE* dot_file, const TreeNode* root, int* node_idx, int du
 
     (*node_idx)++; // for children
 
-    if (root->left) GenerateTreeDump(dot_file, root->left, node_idx, dump_counter);
+    if (root->left)
+    {
+        int left_idx = *node_idx; // left child index (saving it as it's gonna be lost in the next line)
+        GenerateTreeDump(dot_file, root->left, node_idx, dump_counter);
+        fprintf(dot_file, "        d%d_node_%d:l -> d%d_node_%d:n;\n", dump_counter, curr_idx, dump_counter, left_idx);
+        fprintf(dot_file, "        d%d_node_%d -> d%d_node_%d [color=\"#4169E1\", style=\"dashed\", constraint=false];\n", 
+                dump_counter, left_idx, dump_counter, curr_idx);
+    }
 
-    if (root->right) GenerateTreeDump(dot_file, root->right, node_idx, dump_counter);
+    if (root->right) 
+    {
+        int right_idx = *node_idx; // right child index (saving it as it's gonna be lost in the next line)
+        GenerateTreeDump(dot_file, root->right, node_idx, dump_counter);
+        fprintf(dot_file, "        d%d_node_%d:r -> d%d_node_%d:n;\n", dump_counter, curr_idx, dump_counter, right_idx);
+        fprintf(dot_file, "        d%d_node_%d -> d%d_node_%d [color=\"#4169E1\", style=\"dashed\", constraint=false];\n", 
+                dump_counter, right_idx, dump_counter, curr_idx);
+    }
 
     return 0;
 }
@@ -60,7 +74,7 @@ int GenerateDotFile(TreeNode* root, const char* dot_filename, int dump_counter)
     fprintf(dot_file, "    rankdir=TB;\n");
     fprintf(dot_file, "    nodesep=0.6;\n\n");
     fprintf(dot_file, "    ranksep=0.7;\n");
-    fprintf(dot_file, "    graph [splines=spline];\n");
+    fprintf(dot_file, "    graph [splines=line];\n");
     fprintf(dot_file, "    ratio=\"auto\";\n");
     fprintf(dot_file, "    graph [dpi=150];\n");
     fprintf(dot_file, "    node [shape=plain, fontcolor=\"#212529\", fontname=\"Arial\", fontsize=11];\n");
@@ -96,7 +110,7 @@ int TreeGenerateHtmlFile(TreeNode* root, const char* html_filename,
 
 
     // creating svg
-    char temp_term_command[1969] = {};
+    char temp_term_command[TERM_CMD_MAX_SIZE] = {};
 
 
     sprintf(temp_term_command, "dot -Tsvg %s -o %s", dot_filename, svg_filename);
@@ -174,7 +188,6 @@ int TreeGenerateHtmlFile(TreeNode* root, const char* html_filename,
 
         is_first_dump = false;
     }
-
 
     int ch = 0;
     while ((ch = fgetc(svg_file)) != EOF)  fputc(ch, html_file);

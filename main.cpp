@@ -12,15 +12,25 @@ int main(void)
     NodeInit(&right_child, &root, 200);
 
     LinkLeft(&root, &left_child);
-    TreeGraphDump(&root, "graph_dump.html", __FILE__, __LINE__, __func__);
-
     LinkRight(&root, &right_child);
-    TreeGraphDump(&root, "graph_dump.html", __FILE__, __LINE__, __func__);
 
-    printf("%d\n", root.left->data);
-    printf("%d\n", root.right->data);
+    TreeNode left_left_child = {};
+    NodeInit(&left_left_child, &left_child, 300);
 
-    PrintTree(&root);
+    TreeNode left_right_child = {};
+    NodeInit(&left_right_child, &left_child, 400);
+
+    LinkLeft(&left_child, &left_left_child);
+    LinkRight(&left_child, &left_right_child);
+
+    TreeNode right_left_child = {};
+    NodeInit(&right_left_child, &right_child, 500);
+
+    TreeNode right_right_child = {};
+    NodeInit(&right_right_child, &right_child, 600);
+
+    LinkLeft(&right_child, &right_left_child);
+    LinkRight(&right_child, &right_right_child);
 
     TreeGraphDump(&root, "graph_dump.html", __FILE__, __LINE__, __func__);
 
