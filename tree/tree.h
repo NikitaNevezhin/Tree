@@ -13,7 +13,7 @@
 
 #define TERM_CMD_MAX_SIZE 256  // idk, let it be 256
 
-#define TREE_GRAPH_DUMP(root, html_filename) TreeGraphDump(root, html_filename, __FILE__, __LINE__, __func__);
+#define TREE_GRAPH_DUMP(tree, html_filename) TreeGraphDump(tree, html_filename, __FILE__, __LINE__, __func__);
 
 typedef int node_t;
 
@@ -64,10 +64,10 @@ int     GenerateTreeDump        (FILE* dot_file, const TreeNode* root, int* node
 
 int     GenerateDotFile         (TreeNode* root, const char* dot_filename, int dump_counter);
 
-int     TreeGenerateHtmlFile    (TreeNode* list,  const char* html_filename, 
+int     TreeGenerateHtmlFile    (Tree* tree,  const char* html_filename, 
                                  const char* file, int line, const char* func);
 
-int     TreeGraphDump           (TreeNode* root, const char* html_filename, 
+int     TreeGraphDump           (Tree* tree, const char* html_filename, 
                                  const char* file, int line, const char* func);
 
 

@@ -12,7 +12,7 @@ int main(void)
     {
         int random_value = rand() % 1000;
         TreeInsert(&best_tree, random_value);
-        TREE_GRAPH_DUMP(best_tree.root, "graph_dump.html");
+        TREE_GRAPH_DUMP(&best_tree, "graph_dump.html");
     }
 
     return 0;

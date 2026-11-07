@@ -65,7 +65,6 @@ int TreeInit(Tree* tree)
 
     tree->root = NULL;
     tree->total_nodes = 0;
-    
  
     return 0;
 }

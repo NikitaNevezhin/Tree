@@ -45,6 +45,12 @@ int GenerateTreeDump(FILE* dot_file, const TreeNode* root, int* node_idx, int du
                 dump_counter, left_idx, dump_counter, curr_idx);
     }
 
+    else 
+    {
+        fprintf(dot_file, "        d%d_l_nill_%d [shape=point, color=\"#322e2e\", width=0.1, height=0.1];\n", dump_counter, curr_idx);
+        fprintf(dot_file, "        d%d_node_%d:l -> d%d_l_nill_%d [color=\"#322e2e\", style=dashed];\n", dump_counter, curr_idx, dump_counter, curr_idx);
+    }
+
     if (root->right) 
     {
         int right_idx = *node_idx; // right child index (saving it as it's gonna be lost in the next line)
@@ -52,6 +58,12 @@ int GenerateTreeDump(FILE* dot_file, const TreeNode* root, int* node_idx, int du
         fprintf(dot_file, "        d%d_node_%d:r -> d%d_node_%d:n;\n", dump_counter, curr_idx, dump_counter, right_idx);
         fprintf(dot_file, "        d%d_node_%d -> d%d_node_%d [color=\"#4169E1\", style=\"dashed\", constraint=false];\n", 
                 dump_counter, right_idx, dump_counter, curr_idx);
+    }
+
+    else 
+    {
+        fprintf(dot_file, "        d%d_r_nill_%d [shape=point, color=\"#322e2e\", width=0.1, height=0.1];\n", dump_counter, curr_idx);
+        fprintf(dot_file, "        d%d_node_%d:r -> d%d_r_nill_%d [color=\"#322e2e\", style=dashed];\n", dump_counter, curr_idx, dump_counter, curr_idx);
     }
 
     return 0;
@@ -91,10 +103,10 @@ int GenerateDotFile(TreeNode* root, const char* dot_filename, int dump_counter)
     return 0;
 }
 
-int TreeGenerateHtmlFile(TreeNode* root, const char* html_filename, 
+int TreeGenerateHtmlFile(Tree* tree, const char* html_filename, 
                          const char* file, int line, const char* func)
 {
-    assert(root);
+    assert(tree);
     assert(html_filename);
 
 
@@ -106,7 +118,7 @@ int TreeGenerateHtmlFile(TreeNode* root, const char* html_filename,
     const char* svg_filename = "temp_svg_file.svg"; // this file's gonna be destroyed
 
 
-    GenerateDotFile(root, dot_filename, dump_counter);
+    GenerateDotFile(tree->root, dot_filename, dump_counter);
 
 
     // creating svg
@@ -171,7 +183,7 @@ int TreeGenerateHtmlFile(TreeNode* root, const char* html_filename,
             "        .light-log {\n"
             "            display: inline-block;\n"
             "            font-family: 'Courier New', monospace;\n"
-            "            font-size: 14px;\n"
+            "            font-size: 24px;\n"
             "            line-height: 1.6;\n"
             "            color: #334155;\n"
             "            text-align: left;\n"
@@ -188,6 +200,22 @@ int TreeGenerateHtmlFile(TreeNode* root, const char* html_filename,
         is_first_dump = false;
     }
 
+    fprintf(html_file, "    <div class=\"dump-section\">\n");
+
+    fprintf(html_file, 
+        "        <pre class=\"light-log\">\n"
+        "TreeDump #%d was called in %s:%d in function %s()\n"
+        "Root pointer: %p\n"
+        "Total nodes:  %d\n"
+        "        </pre>\n\n",
+        dump_counter, file, line, func, tree->root, tree->total_nodes
+    );
+
+    fprintf(html_file, 
+        "        <hr class=\"dash-line\">\n"
+        "        <div class=\"graph-container\">\n"
+    );
+
     int ch = 0;
     while ((ch = fgetc(svg_file)) != EOF)  fputc(ch, html_file);
 
@@ -200,20 +228,19 @@ int TreeGenerateHtmlFile(TreeNode* root, const char* html_filename,
     fclose(html_file);
 
 
-    // remove(dot_filename);
+    remove(dot_filename);
     remove(svg_filename);
-
 
     dump_counter++;
     return 0;
 }
 
-int TreeGraphDump(TreeNode* root, const char* html_filename, 
+int TreeGraphDump(Tree* tree, const char* html_filename, 
                   const char* file, int line, const char* func)
 {
-    assert(root);
+    assert(tree);
 
-    TreeGenerateHtmlFile(root, html_filename, file, line, func);
+    TreeGenerateHtmlFile(tree, html_filename, file, line, func);
 
     return 0;
 }
