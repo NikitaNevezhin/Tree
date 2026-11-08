@@ -53,6 +53,16 @@ TreeNode*    InsertRecursive     (TreeNode* curr_node, TreeNode* parent, node_t 
  
 int          TreeInsert          (Tree* tree, node_t data);
 
+// ------------------
+//  TREE-FILE PARSER
+// ------------------
+
+int          ParseData           (char* data_buff, FILE* tree_file);
+
+TreeNode*    ParseSubtree        (TreeNode* parent, FILE* tree_file, int* total_nodes);
+
+int          ParseTree           (Tree* tree, const char* tree_filename);
+
 
 // ------------------
 // GRAPH DUMP SECTION

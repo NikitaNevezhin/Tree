@@ -28,7 +28,6 @@ int NodeDestroy(TreeNode* node)
 int LinkLeft(TreeNode* parent, TreeNode* child)
 {
     assert(parent);
-    assert(child);
 
     parent->left = child;
 
@@ -38,7 +37,6 @@ int LinkLeft(TreeNode* parent, TreeNode* child)
 int LinkRight(TreeNode* parent, TreeNode* child)
 {
     assert(parent);
-    assert(child);
 
     parent->right = child;
 
