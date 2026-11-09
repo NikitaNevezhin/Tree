@@ -37,7 +37,11 @@ TreeNode* ParseSubtree(TreeNode* parent, FILE* tree_file, int* total_nodes)
     char first_symb = fgetc(tree_file);
 
     if (first_symb == '(')
-    {
+    {   
+        char second_symb = fgetc(tree_file);
+        if (second_symb == ')') return NULL;  // empty subtree
+        ungetc(second_symb, tree_file);
+        
         TreeNode* new_node = (TreeNode*)calloc(1, sizeof(TreeNode));
 
         if (!new_node) 

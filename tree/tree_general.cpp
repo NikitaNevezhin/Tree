@@ -51,8 +51,10 @@ void PrintTree(TreeNode* root)
     printf("%d", root->data);
 
     if (root->left) PrintTree(root->left);
+    else            printf("()");
 
     if (root->right) PrintTree(root->right);
+    else            printf("()");
 
     printf(")");
 }
